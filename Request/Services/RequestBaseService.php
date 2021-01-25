@@ -6,6 +6,9 @@ namespace App\Ship\App\Request\Services;
 use Apiato\Core\Foundation\Facades\Apiato;
 use App\Ship\App\Request\Interfaces\RequestParametersInterface;
 use App\Ship\Parents\Repositories\Repository;
+use App\Ship\App\Request\Tasks\AddRequestTask;
+use App\Ship\App\Request\Tasks\ChangeStatusByIdsTask;
+use App\Ship\App\Request\Tasks\DeleteRequestsTask;
 
 class RequestBaseService
 {
@@ -24,7 +27,7 @@ class RequestBaseService
      */
     public function addRequest(RequestParametersInterface $parameters)
     {
-        return Apiato::call('Ship\App\Request\Tasks\AddRequestTask', [$this->repository, $parameters]);
+        return Apiato::call(AddRequestTask::class, [$this->repository, $parameters]);
     }
 
     /**
@@ -57,7 +60,7 @@ class RequestBaseService
      */
     public function changeStatusRequests(int $eid, array $users, int $status, bool $deviation = false)
     {
-        return Apiato::call('Ship\App\Request\Tasks\ChangeStatusByIdsTask', [
+        return Apiato::call(ChangeStatusByIdsTask::class, [
             $this->repository, $eid, $users, $status, $deviation
         ]);
     }
@@ -70,7 +73,7 @@ class RequestBaseService
      */
     public function deleteRequests(int $eid, array $users)
     {
-        return Apiato::call('Ship\App\Request\Tasks\DeleteRequestsTask', [$this->repository, $eid, $users]);
+        return Apiato::call(DeleteRequestsTask::class, [$this->repository, $eid, $users]);
     }
 
 }
